@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -39,32 +38,26 @@ if ($result) {
     $newAlerts = (int) $result->fetch_assoc()['total'];
 }
 
-// Monitor ESP32 status using heartbeat records
+// Monitor ESP32 using a temporary status file, not MySQL
 $esp32Status = "Inactive";
+$statusFile = __DIR__ . '/../api/esp32_status.txt';
 
-$result = $conn->query(
-    "SELECT created_at
-     FROM intrusion_events
-     WHERE event_type = 'ESP32 Heartbeat'
-     ORDER BY created_at DESC
-     LIMIT 1"
-);
+if (is_file($statusFile)) {
+    $lastStatusTime = trim(file_get_contents($statusFile));
 
-if ($result && $result->num_rows > 0) {
-    $heartbeat = $result->fetch_assoc()['created_at'];
-    $heartbeatTime = strtotime($heartbeat);
+    if (ctype_digit($lastStatusTime)) {
+        $statusTime = (int) $lastStatusTime;
 
-    if (
-        $heartbeatTime !== false &&
-        $heartbeatTime <= time() &&
-        $heartbeatTime >= time() - 60
-    ) {
-        $esp32Status = "Active";
+        if (
+            $statusTime <= time() &&
+            $statusTime >= time() - 15
+        ) {
+            $esp32Status = "Active";
+        }
     }
 }
 
 // Get the latest five intrusion events
-// Do not display heartbeat records as intrusion events
 $latestEvents = $conn->query(
     "SELECT event_id, event_type, event_date, event_time, event_status
      FROM intrusion_events
@@ -82,7 +75,7 @@ $adminName = $_SESSION['username'] ?? 'Administrator';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta http-equiv="refresh" content="15">
+    <meta http-equiv="refresh" content="5">
 
     <title>Administrator Dashboard | IoT Security System</title>
 
@@ -92,33 +85,47 @@ $adminName = $_SESSION['username'] ?? 'Administrator';
 <body class="min-h-screen bg-slate-100 text-slate-800">
 
 <!-- Header -->
-<header class="bg-[#0b2b59] text-white shadow-md">
-    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5">
+<header class="w-full bg-[#0b2b59] text-white shadow-md">
 
-        <div>
-            <h1 class="text-xl font-bold sm:text-2xl">
-                IoT Security System
-            </h1>
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-5 md:px-6">
 
-            <p class="mt-1 text-sm text-blue-100">
-                Administrator Dashboard
-            </p>
+        <!-- BUK Logo and Dashboard Title -->
+        <div class="flex items-center gap-4">
+
+            <!-- BUK Logo at the Far Left -->
+            <div class="flex shrink-0 items-center justify-center">
+                <img
+                    src="../image/buk logo.png"
+                    alt="Bayero University Kano Logo"
+                    class="h-14 w-14 object-contain sm:h-16 sm:w-16 md:h-20 md:w-20"
+                >
+            </div>
+
+            <!-- Header Text -->
+            <div class="min-w-0">
+                <h1 class="text-lg font-bold leading-tight sm:text-xl md:text-2xl">
+                    IoT Security System
+                </h1>
+
+                <p class="mt-1 text-xs text-blue-100 sm:text-sm">
+                    Administrator Dashboard
+                </p>
+            </div>
+
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-
             <span class="text-sm">
                 Welcome,
                 <?= htmlspecialchars($adminName, ENT_QUOTES, 'UTF-8') ?>
             </span>
 
-            <!-- Logout -->
             <a href="logout.php"
                class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
                 Logout
             </a>
-
         </div>
+
     </div>
 </header>
 
@@ -212,8 +219,8 @@ $adminName = $_SESSION['username'] ?? 'Administrator';
         </div>
 
         <p class="mt-4 text-xs text-slate-500">
-            The ESP32 must send a heartbeat within the last 60 seconds
-            to be displayed as Active.
+            The ESP32 must contact the server within the last 15 seconds
+            to be displayed as Active. Connection status is not stored in MySQL.
         </p>
 
     </section>

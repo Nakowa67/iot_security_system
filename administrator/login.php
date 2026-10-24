@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once '../config_setup/database.php';
@@ -50,20 +49,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Administrator Login | IoT Security System</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="min-h-screen flex flex-col bg-gray-100">
 
     <!-- Header -->
-    <header class="bg-[#0b2b59] text-white px-6 md:px-10 py-4">
-        <h1 class="text-xl md:text-2xl font-bold">
-            IoT Security System
-        </h1>
-        <p class="text-sm text-blue-100 mt-1">
-            Faculty of Computing, BUK
-        </p>
+    <header class="w-full bg-[#0b2b59] text-white px-4 sm:px-6 md:px-10 py-3 shadow-md">
+
+        <div class="flex w-full items-center gap-4">
+
+            <!-- BUK Logo at the Far Left -->
+            <div class="flex shrink-0 items-center justify-center">
+                <img
+                    src="../image/buk logo.png"
+                    alt="Bayero University Kano Logo"
+                    class="h-14 w-14 object-contain sm:h-16 sm:w-16 md:h-20 md:w-20"
+                >
+            </div>
+
+            <!-- Header Text -->
+            <div class="min-w-0">
+                <h1 class="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
+                    IoT Security System
+                </h1>
+
+                <p class="mt-1 text-xs sm:text-sm text-blue-100">
+                    Faculty of Computing, Bayero University Kano
+                </p>
+            </div>
+
+        </div>
+
     </header>
 
     <!-- Login Form -->
@@ -142,12 +163,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Footer -->
     <footer class="bg-[#0b2b59] text-white text-center px-5 py-5">
+
         <p class="font-semibold">
             Bayero University Kano | Faculty of Computing
         </p>
+
         <p class="text-sm text-blue-200 mt-2">
             IoT-Based Intrusion Detection and Security Alert System
         </p>
+
     </footer>
 
 </body>

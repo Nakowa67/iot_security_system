@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -49,14 +48,24 @@ if (!$result) {
         <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row
                     sm:items-center sm:justify-between gap-4">
 
-            <div>
-                <h1 class="text-xl sm:text-2xl font-bold">
-                    IoT-Based Intrusion Detection and Security Alert System
-                </h1>
+            <div class="flex items-center gap-4">
 
-                <p class="text-sm text-slate-200 mt-1">
-                    Administrator Panel
-                </p>
+                <div class="flex shrink-0 items-center justify-center">
+                    <img src="../image/buk logo.png"
+                         alt="Bayero University Kano Logo"
+                         class="h-14 w-14 object-contain sm:h-16 sm:w-16 md:h-20 md:w-20">
+                </div>
+
+                <div class="min-w-0">
+                    <h1 class="text-xl sm:text-2xl font-bold">
+                        IoT-Based Intrusion Detection and Security Alert System
+                    </h1>
+
+                    <p class="text-sm text-slate-200 mt-1">
+                        Administrator Panel
+                    </p>
+                </div>
+
             </div>
 
             <div class="flex items-center gap-3">

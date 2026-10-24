@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -91,14 +90,24 @@ $loadError = $alerts ? "" : "Unable to load alerts. Please check the database co
 <header class="bg-[#0b2b59] text-white shadow-md">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5">
 
-        <div>
-            <h1 class="text-xl font-bold sm:text-2xl">
-                IoT Security System
-            </h1>
+        <div class="flex items-center gap-4">
 
-            <p class="mt-1 text-sm text-blue-100">
-                Administrator Dashboard
-            </p>
+            <div class="flex shrink-0 items-center justify-center">
+                <img src="../image/buk logo.png"
+                     alt="Bayero University Kano Logo"
+                     class="h-14 w-14 object-contain sm:h-16 sm:w-16 md:h-20 md:w-20">
+            </div>
+
+            <div class="min-w-0">
+                <h1 class="text-xl font-bold sm:text-2xl">
+                    IoT Security System
+                </h1>
+
+                <p class="mt-1 text-sm text-blue-100">
+                    Administrator Dashboard
+                </p>
+            </div>
+
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
